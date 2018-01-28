@@ -27,4 +27,16 @@ urlpatterns = [
     url(r'^ask/', views.ask),
     url(r'^forum/', views.forum),
     url(r'^jargon/', views.jargon),
+    url(r'^define/', views.define),
+    url(r'^youtube/', views.youtube),
+    url(r'^courses/', views.courses),
+    url(r'^coursera', views.coursera),
+    url(r'^search', views.search),
+    url(r'^def', views.searchDef),
+    url(r'^posts/$', views.posts),
+    url(r'^new_post/$', views.new_post),
+    ####################################
+    url(r'^sendAns/(\d+)$', views.sendAns),
+    url(r'^sentQues/$', views.sentQues),
+    url(r'^questionDetail/(\d+)$', views.questionDetail),
 ]

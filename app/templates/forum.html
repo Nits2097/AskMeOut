@@ -7,5 +7,61 @@
   <li class="mui--is-active"><a a href="/forum" data-mui-toggle="tab" data-mui-controls="pane-justified-2">FORUM</a></li>
 </ul>
 <div class="mui-tabs__pane" id="pane-justified-1">Pane-1 hveq </div>
-<div class="mui-tabs__pane mui--is-active" id="pane-justified-2">Pane-2</div>
+<!-- <div class="mui-tabs__pane mui--is-active" id="pane-justified-2">Forum info</div>
+ --><!-- <a href="/optout"> Optout </a>
+ --><div>
+<div class="top-content">
+            
+            <div class="inner-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2 text">
+                            <h3> Upload a question </h3>
+                            <div class="description">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3 form-box">
+                            <div class="form-top">
+                                
+                                
+                            </div>
+                            <div class="form-bottom contact-form">
+                                <form role="form" action="/sentQues/" method="post">{% csrf_token %}
+                                    <div class="form-group">
+                                        <label class="sr-only" for="contact-email">Question Name:</label>
+                                        <input type="text" name="qname" placeholder="Enter your question here..." class="contactqname form-control" id="qname">
+                                    </div>
+                                    
+                                    <button type="submit" class="btn">Submit Question</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+</div>
+<div class="col-sm-8 col-sm-offset-4 form-box">
+
+<h3>Review Recent Questions</h3>
+{% for question in questions %}
+        <div class="question">
+         
+             <h3><a href="/questionDetail/{{question.qid}}">{{ question.qid }} . {{ question.name }} </a></h3>
+            {% if question.boolValue == "True" %}
+            <p style="color:green">Answered Question</p>
+            {% else %}
+            <p style="color:red">Unanswered Question</p> 
+            {% endif %}
+           
+            
+        </div>
+    {% endfor %}
+ </div>
 {% endblock %}
+
