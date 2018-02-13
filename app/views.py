@@ -7,6 +7,9 @@ from django.contrib.auth.decorators import login_required
 from .models import Post
 from PyDictionary import PyDictionary
 from .models import Question,Answer,User
+from paralleldots import set_api_key, sentiment, ner, keywords,intent
+import pdfkit
+
 
 ###FOR YOUTUBE API
 import argparse
@@ -16,6 +19,8 @@ DEVELOPER_KEY = 'AIzaSyCj9VfJo625SsADDXqX87iyOZhsYTC_MHk'
 YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
 
+set_api_key("WjlcgNCnULlVMiRc47ob2ybV0aVS0aR8VhoQUBpayBs")
+
 def courses(request):
     return render(request, 'coursera.html')
 
@@ -23,7 +28,7 @@ def coursera(request):
     print ("here")
     if request.method == 'POST':
         search_id = request.POST.get('textfield', None)
-        searchfile = open("/home/kanksha/askmeout/app/HEY.txt", "r")
+        searchfile = open("C:/Users/Niti123/Desktop/askmeout/app/HEY.txt", "r")
         courses = {}
         i=0
         for line in searchfile:
@@ -192,6 +197,31 @@ def sentQues(request):
         q.save()
     return render(request,'forum.html',{'questions':questions})
 
+def trySentiment(request):
+    if request.method == 'POST':
+        sentence = request.POST.get('sent')
+        data = sentiment(sentence)
+        ans = data['sentiment']
+        print(ans)
+    return render(request,'trial.html',{'ans':ans})
+
+def keywords(request):
+    if request.method == 'POST':
+        sentence = request.POST.get('sent')
+        data = keywords(sentence)
+        data = data['keywords']
+        print(data)
+    return render(request,'trial.html',{'data':data})
+
+
+def tryNER(request):
+    if request.method == 'POST':
+        sentence = request.POST.get('sent')
+        data = ner(sentence)
+        nero = data['entities']
+        print(nero)
+    return render(request,'trial.html',{'nero':nero})
+
 def sendAns(request,id):
     if request.method == 'POST':
         ansName = request.POST.get('ansname')
@@ -200,9 +230,26 @@ def sendAns(request,id):
     return render(request,'forum.html')
 
 def questions(request):
-    questions = Question.objects.all()
     return render(request,'post_list.html',{'posts': posts})
 
 def forum(request):
     questions = Question.objects.all()
     return render(request, 'forum.html',{'questions':questions})
+
+def trial(request,vid):
+    call=Call.objects.filter(ccid=vid)
+    return render(request, 'trial.html')
+
+
+def tryIntent(request):
+    if request.method == 'POST':
+        sentence = request.POST.get('sent')
+        datater = intent(sentence)
+        answer = datater['intent']
+        print(answer)
+    return render(request,'trial.html',{'answer':answer})
+
+def index(request):
+    pdf = pdfkit.from_url("http://ourcodeworld.com", "ourcodeworld.pdf")
+
+    return HttpResponse("Everything working good, check out the root of your project to see the generated PDF.")
